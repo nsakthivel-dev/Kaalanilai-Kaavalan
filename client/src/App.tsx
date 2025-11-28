@@ -14,10 +14,10 @@ import Chat from "@/pages/Chat";
 import Dashboard from "@/pages/Dashboard";
 import Experts from "@/pages/Experts";
 import Weather from "@/pages/Weather";
-import Download from "@/pages/Download";
 import Contact from "@/pages/Contact";
 import Admin from "@/pages/Admin";
 import DataStorage from "@/pages/DataStorage";
+import FarmConnect from "@/pages/FarmConnect";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -30,10 +30,10 @@ function Router() {
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/experts" component={Experts} />
       <Route path="/alerts" component={Weather} />
-      <Route path="/download" component={Download} />
       <Route path="/contact" component={Contact} />
       <Route path="/admin" component={Admin} />
       <Route path="/data-storage" component={DataStorage} />
+      <Route path="/farm-connect" component={FarmConnect} />
       <Route component={NotFound} />
     </Switch>
   );
@@ -47,7 +47,7 @@ function App() {
           <LanguageProvider>
             <div className="min-h-screen flex flex-col">
               <Navbar />
-              <main className="flex-1">
+              <main className="flex-1 pt-14 sm:pt-16 lg:pt-20">
                 <Router />
               </main>
               <Footer />

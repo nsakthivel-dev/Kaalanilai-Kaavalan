@@ -115,12 +115,12 @@ export class MemStorage implements IStorage {
 
     // Updated expert data focusing on India and Tamil Nadu
     const expertData = [
-      { name: "Dr. Ramesh Kumar", specialization: ["vegetables", "pest_management"], district: "Coimbatore", languages: ["English", "Tamil"], contactEmail: "ramesh@tnagri.tn.gov.in", avatarUrl: "", verified: true },
-      { name: "Dr. Priya Lakshmi", specialization: ["cereals", "disease_control"], district: "Thanjavur", languages: ["English", "Tamil"], contactEmail: "priya@tnagri.tn.gov.in", avatarUrl: "", verified: true },
-      { name: "Dr. Senthil Nathan", specialization: ["fruits", "organic_farming"], district: "Madurai", languages: ["English", "Tamil"], contactEmail: "senthil@tnagri.tn.gov.in", avatarUrl: "", verified: true },
-      { name: "Dr. Karthik Raj", specialization: ["cash_crops", "soil_health"], district: "Erode", languages: ["English", "Tamil"], contactEmail: "karthik@tnagri.tn.gov.in", avatarUrl: "", verified: true },
-      { name: "Dr. Meena Devi", specialization: ["vegetables", "water_management"], district: "Salem", languages: ["English", "Tamil"], contactEmail: "meena@tnagri.tn.gov.in", avatarUrl: "", verified: true },
-      { name: "Dr. Arjun Reddy", specialization: ["cereals", "climate_resilience"], district: "Chennai", languages: ["English", "Tamil", "Telugu"], contactEmail: "arjun@tnagri.tn.gov.in", avatarUrl: "", verified: true },
+      { name: "Dr. Ramesh Kumar", specialization: ["vegetables", "pest_management"], district: "Coimbatore", languages: ["English", "Tamil"], contactEmail: "ramesh@tnagri.tn.gov.in", avatarUrl: "", verified: true, rating: 4.8, experienceYears: 15 },
+      { name: "Dr. Priya Lakshmi", specialization: ["cereals", "disease_control"], district: "Thanjavur", languages: ["English", "Tamil"], contactEmail: "priya@tnagri.tn.gov.in", avatarUrl: "", verified: true, rating: 4.9, experienceYears: 12 },
+      { name: "Dr. Senthil Nathan", specialization: ["fruits", "organic_farming"], district: "Madurai", languages: ["English", "Tamil"], contactEmail: "senthil@tnagri.tn.gov.in", avatarUrl: "", verified: true, rating: 4.7, experienceYears: 18 },
+      { name: "Dr. Karthik Raj", specialization: ["cash_crops", "soil_health"], district: "Erode", languages: ["English", "Tamil"], contactEmail: "karthik@tnagri.tn.gov.in", avatarUrl: "", verified: true, rating: 4.6, experienceYears: 20 },
+      { name: "Dr. Meena Devi", specialization: ["vegetables", "water_management"], district: "Salem", languages: ["English", "Tamil"], contactEmail: "meena@tnagri.tn.gov.in", avatarUrl: "", verified: true, rating: 4.9, experienceYears: 10 },
+      { name: "Dr. Arjun Reddy", specialization: ["cereals", "climate_resilience"], district: "Chennai", languages: ["English", "Tamil", "Telugu"], contactEmail: "arjun@tnagri.tn.gov.in", avatarUrl: "", verified: true, rating: 4.5, experienceYears: 22 },
     ];
 
     expertData.forEach(expert => {
@@ -128,13 +128,15 @@ export class MemStorage implements IStorage {
       this.experts.set(id, { 
         id,
         name: expert.name,
-        specialization: expert.specialization ?? null,
-        district: expert.district ?? null,
-        languages: expert.languages ?? null,
-        contactEmail: expert.contactEmail ?? null,
+        specialization: expert.specialization,
+        district: expert.district,
+        languages: expert.languages,
+        contactEmail: expert.contactEmail,
         contactPhone: null,
-        avatarUrl: expert.avatarUrl ?? null,
-        verified: expert.verified ?? null,
+        avatarUrl: expert.avatarUrl,
+        verified: expert.verified,
+        rating: expert.rating,
+        experienceYears: expert.experienceYears,
       } as any);
     });
 
@@ -297,6 +299,8 @@ export class MemStorage implements IStorage {
       contactPhone: (insertExpert.contactPhone as any)?.[0] ?? insertExpert.contactPhone ?? null,
       avatarUrl: (insertExpert.avatarUrl as any)?.[0] ?? insertExpert.avatarUrl ?? null,
       verified: (insertExpert.verified as any)?.[0] ?? insertExpert.verified ?? null,
+      rating: (insertExpert.rating as any)?.[0] ?? insertExpert.rating ?? null,
+      experienceYears: (insertExpert.experienceYears as any)?.[0] ?? insertExpert.experienceYears ?? null,
     } as Expert;
     this.experts.set(id, expert);
     return expert;

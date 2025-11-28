@@ -40,7 +40,7 @@ export interface WeatherData {
 }
 
 export async function getWeatherData(location: string): Promise<WeatherData> {
-  const apiKey = process.env.weather_api;
+  const apiKey = process.env.WEATHER_API_KEY;
   
   if (!apiKey) {
     throw new Error('Weather API key not configured');

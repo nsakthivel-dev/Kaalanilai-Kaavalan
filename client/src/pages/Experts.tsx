@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Search, Phone, Mail, Video, MessageSquare, MapPin } from "lucide-react";
+import { Search, Phone, Mail, Video, MessageSquare, MapPin, Star } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -21,7 +21,8 @@ export default function Experts() {
   const [specializationFilter, setSpecializationFilter] = useState("all");
 
   const { data: experts, isLoading } = useQuery<Expert[]>({
-    queryKey: ["/api/experts"],
+    queryKey: ["experts"],
+    queryFn: () => fetch("/api/experts").then(res => res.json()),
   });
 
   const filteredExperts = experts?.filter(expert => {
@@ -135,11 +136,24 @@ export default function Experts() {
                         <MapPin className="h-3 w-3" />
                         {expert.district}
                       </div>
+                      <div className="flex items-center gap-3 mt-1">
+                        {typeof expert.rating === 'number' && (
+                          <div className="flex items-center gap-1">
+                            <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
+                            <span className="text-sm font-medium">{expert.rating}/5</span>
+                          </div>
+                        )}
+                        {typeof expert.experienceYears === 'number' && (
+                          <div className="text-sm text-muted-foreground">
+                            {expert.experienceYears} years exp.
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
 
                   <div className="flex flex-wrap gap-2 mb-4">
-                    {expert.specialization?.map(spec => (
+                    {Array.isArray(expert.specialization) && expert.specialization.map(spec => (
                       <Badge key={spec} variant="outline" className="text-xs">
                         {spec.replace('_', ' ')}
                       </Badge>
@@ -147,7 +161,7 @@ export default function Experts() {
                   </div>
 
                   <div className="flex flex-wrap gap-2">
-                    {expert.languages?.map(lang => (
+                    {Array.isArray(expert.languages) && expert.languages.map(lang => (
                       <span key={lang} className="text-xs text-muted-foreground">
                         {lang}
                       </span>
@@ -169,7 +183,7 @@ export default function Experts() {
                       Video
                     </Button>
                   </div>
-                  {expert.contactEmail && (
+                  {typeof expert.contactEmail === 'string' && expert.contactEmail && (
                     <div className="flex items-center gap-2 text-xs text-muted-foreground mt-2 pt-2 border-t">
                       <Mail className="h-3 w-3" />
                       <span className="truncate">{expert.contactEmail}</span>

@@ -61,6 +61,8 @@ export const experts = pgTable("experts", {
   contactPhone: text("contact_phone"),
   avatarUrl: text("avatar_url"),
   verified: boolean("verified").default(false),
+  rating: integer("rating"),
+  experienceYears: integer("experience_years"),
 });
 
 // Alerts and bulletins
