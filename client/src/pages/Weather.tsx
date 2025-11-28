@@ -49,7 +49,7 @@ export default function Weather() {
   const { t } = useLanguage();
   const [location, setLocation] = useState("Chennai");
   const [searchLocation, setSearchLocation] = useState("Chennai");
-  const [activeTab, setActiveTab] = useState<"weather" | "calendar">("weather");
+  const [activeSection, setActiveSection] = useState<"weather" | "calendar">("weather");
   const [calendarDate, setCalendarDate] = useState(new Date());
 
   const { data: weather, isLoading, error, refetch } = useQuery<WeatherData>({
@@ -80,6 +80,15 @@ export default function Weather() {
     "Tirunelveli", "Erode", "Vellore", "Thanjavur", "Thoothukudi"
   ];
 
+  // Navigation functions
+  const goToPreviousSection = () => {
+    setActiveSection(prev => prev === "weather" ? "calendar" : "weather");
+  };
+
+  const goToNextSection = () => {
+    setActiveSection(prev => prev === "weather" ? "calendar" : "weather");
+  };
+
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="max-w-6xl mx-auto">
@@ -90,29 +99,36 @@ export default function Weather() {
           </p>
         </div>
 
-        {/* Tab Navigation */}
-        <div className="flex mb-6 border-b">
-          <Button
-            variant={activeTab === "weather" ? "default" : "ghost"}
-            className="flex items-center gap-2 px-4 py-2 rounded-b-none"
-            onClick={() => setActiveTab("weather")}
+        {/* Navigation Arrows */}
+        <div className="flex justify-between items-center mb-6">
+          <Button 
+            variant="outline" 
+            size="lg" 
+            onClick={goToPreviousSection}
+            className="flex items-center gap-2"
           >
-            <Cloud className="h-4 w-4" />
-            Weather
+            <ChevronLeft className="h-5 w-5" />
+            Previous
           </Button>
-          <Button
-            variant={activeTab === "calendar" ? "default" : "ghost"}
-            className="flex items-center gap-2 px-4 py-2 rounded-b-none"
-            onClick={() => setActiveTab("calendar")}
+          
+          <div className="text-xl font-semibold">
+            {activeSection === "weather" ? "Weather Information" : "Event Calendar"}
+          </div>
+          
+          <Button 
+            variant="outline" 
+            size="lg" 
+            onClick={goToNextSection}
+            className="flex items-center gap-2"
           >
-            <CalendarIcon className="h-4 w-4" />
-            Event Calendar
+            Next
+            <ChevronRight className="h-5 w-5" />
           </Button>
         </div>
 
-        {/* Tab Content */}
-        {activeTab === "weather" ? (
-          <>
+        {/* Section Content */}
+        {activeSection === "weather" ? (
+          <div className="space-y-6">
             {/* Weather Search Card */}
             <Card className="mb-8">
               <CardContent className="pt-6">
@@ -284,29 +300,10 @@ export default function Weather() {
                 </CardContent>
               </Card>
             )}
-          </>
+          </div>
         ) : (
           /* Calendar View */
           <div className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold">Event Calendar</h2>
-              <div className="flex gap-2">
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => setCalendarDate(subMonths(calendarDate, 1))}
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                </Button>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => setCalendarDate(addMonths(calendarDate, 1))}
-                >
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
             <EventCalendar 
               currentDate={calendarDate}
               onDateChange={setCalendarDate}
